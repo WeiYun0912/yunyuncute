@@ -1,13 +1,11 @@
-import React, { useEffect } from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import React, { useState, useEffect } from "react";
+import {
+  makeStyles,
+  createMuiTheme,
+  ThemeProvider,
+} from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
-import Card from "@material-ui/core/Card";
-import CardActionArea from "@material-ui/core/CardActionArea";
-import CardActions from "@material-ui/core/CardActions";
-import CardContent from "@material-ui/core/CardContent";
-import CardMedia from "@material-ui/core/CardMedia";
-import Typography from "@material-ui/core/Typography";
-import SignP from "../../images/sign.PNG";
+import Box from "@material-ui/core/Box";
 import Background from "../../images/background2.jpg";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -17,6 +15,8 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import { shopContract } from "../../ethereum/shop-contract";
+import { sign } from "../../ethereum/helpers";
+import SimpleDateTime from "react-simple-timestamp-to-date";
 const useStyles = makeStyles({
   root: {
     maxWidth: 345,
@@ -24,47 +24,57 @@ const useStyles = makeStyles({
   media: {
     height: 250,
   },
+  Button: {
+    backgroundColor: "#f50057",
+    "&:disabled": {
+      color: "#fff",
+      backgroundColor: "#a4a4a4 !important",
+      opacity: "0.9",
+    },
+  },
 });
+
 const Sign = () => {
   const classes = useStyles();
-  console.log(shopContract.events);
-  useEffect(async () => {
+  const [signRecords, setSignRecords] = useState();
+  const [buttonDisabled, setButtonDisabled] = useState(false);
+  useEffect(() => {
     document.body.style.backgroundImage = `url(${Background})`;
-    const getRecords = async () => {
-      await shopContract.events
-        .signRecords({}, { fromBlock: 0, toBlock: "latest" })
-        .on("connected", (event) => {
-          console.log(event);
-        });
+    const getSignRecords = async () => {
+      const results = await shopContract.getPastEvents("signRecords", {
+        fromBlock: 0,
+      });
+      setSignRecords(results);
     };
-    await getRecords();
-  }, []);
+    getSignRecords();
+  }, [setSignRecords]);
+
+  const signHandler = async () => {
+    setButtonDisabled(true);
+    await sign();
+    const results = await shopContract.getPastEvents("signRecords", {
+      fromBlock: 0,
+    });
+    setSignRecords(results);
+    setButtonDisabled(false);
+  };
+
   return (
     <>
-      <Card className={classes.root} style={{ margin: "10px 15px" }}>
-        <CardActionArea>
-          <CardMedia
-            className={classes.media}
-            image={SignP}
-            title="Contemplative Reptile"
-          />
-          <CardContent>
-            <Typography gutterBottom variant="h5" component="h2">
-              123
-            </Typography>
-            <Typography variant="body2" color="textSecondary" component="p">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti
-              impedit eaque qui!
-            </Typography>
-          </CardContent>
-        </CardActionArea>
-        <CardActions>
-          <Button variant="contained" color="secondary" fullWidth>
-            Exchange
-          </Button>
-        </CardActions>
-      </Card>
-      <TableContainer component={Paper}>
+      <Box width="100%" margin="20px 0">
+        <Button
+          size="large"
+          variant="contained"
+          fullWidth
+          color="secondary"
+          disabled={buttonDisabled}
+          onClick={signHandler}
+          className={classes.Button}
+        >
+          簽到
+        </Button>
+      </Box>
+      <TableContainer component={Paper} style={{ marginBottom: "10px" }}>
         <Table className={classes.table} aria-label="simple table">
           <TableHead>
             <TableRow>
@@ -73,12 +83,31 @@ const Sign = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            <TableRow>
-              <TableCell component="th" scope="row" align="center">
-                1
-              </TableCell>
-              <TableCell align="center">2</TableCell>
-            </TableRow>
+            {signRecords?.map((record) => (
+              <TableRow>
+                <TableCell component="th" scope="row" align="center">
+                  <SimpleDateTime
+                    dateSeparator="-"
+                    format="MYD"
+                    timeSeparator=":"
+                    meridians="1"
+                    showTime="0"
+                  >
+                    {record.returnValues[1]}
+                  </SimpleDateTime>
+                </TableCell>
+                <TableCell align="center">
+                  <SimpleDateTime
+                    dateSeparator="-"
+                    format="MYD"
+                    timeSeparator=":"
+                    showDate="0"
+                  >
+                    {record.returnValues[1]}
+                  </SimpleDateTime>
+                </TableCell>
+              </TableRow>
+            ))}
           </TableBody>
         </Table>
       </TableContainer>
