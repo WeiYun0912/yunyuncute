@@ -18,9 +18,9 @@ function App() {
             flexWrap="wrap"
             width="100%"
           >
-            <Route path={"/yunyunsite"} exact component={Sign} />
-            <Route path={"/yunyunsite/Rewards"} component={Rewards} />
-            <Redirect from={"/"} to={"/yunyunsite"}></Redirect>
+            <Route path={"/yunyuncute"} exact component={Sign} />
+            <Route path={"/yunyuncute/Rewards"} component={Rewards} />
+            <Redirect from={"/"} to={"/yunyuncute"}></Redirect>
           </Box>
         </Container>
       </div>

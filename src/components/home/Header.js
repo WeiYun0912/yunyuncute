@@ -82,7 +82,7 @@ const Header = () => {
           </Typography>
           <div className={classes.grow} />
           <Link
-            to="/yunyunsite"
+            to="/yunyuncute"
             style={{ textDecoration: "none", color: "#fff", outline: "none" }}
           >
             <IconButton
@@ -96,7 +96,7 @@ const Header = () => {
             </IconButton>
           </Link>
           <Link
-            to="/yunyunsite/Rewards"
+            to="/yunyuncute/Rewards"
             style={{ textDecoration: "none", color: "#fff", outline: "none" }}
           >
             <IconButton
