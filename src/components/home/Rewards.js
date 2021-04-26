@@ -12,7 +12,6 @@ import drink from "../../images/drink.PNG";
 import wish from "../../images/wish.PNG";
 import food from "../../images/food.PNG";
 import story from "../../images/story.PNG";
-import Background from "../../images/background.jpg";
 import { yunContract } from "../../ethereum/yun-contract";
 import { exchange } from "../../ethereum/helpers";
 import Box from "@material-ui/core/Box";
@@ -79,7 +78,6 @@ const Rewards = () => {
   };
 
   useEffect(() => {
-    document.body.style.backgroundImage = `url(${Background})`;
     const getPoints = async () => {
       const balancePoint = await yunContract.methods
         .yun("0xf289Bf6ecDb2BC0a2697F437446656C52484D8e6")

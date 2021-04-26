@@ -7,13 +7,11 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
-import Background from "../../images/background.jpg";
 import SimpleDateTime from "react-simple-timestamp-to-date";
 import Button from "@material-ui/core/Button";
 const Inventory = () => {
   const [rewards, setRecords] = useState();
   useEffect(() => {
-    document.body.style.backgroundImage = `url(${Background})`;
     const getRewardInventory = async () => {
       const results = await yunContract.methods.getAllReward().call();
       console.log(results);

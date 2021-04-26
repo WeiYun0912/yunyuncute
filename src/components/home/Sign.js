@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Box from "@material-ui/core/Box";
-import Background from "../../images/background2.jpg";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -35,7 +34,6 @@ const Sign = () => {
   const [signRecords, setSignRecords] = useState();
   const [buttonDisabled, setButtonDisabled] = useState(false);
   useEffect(() => {
-    document.body.style.backgroundImage = `url(${Background})`;
     const getSignRecords = async () => {
       const results = await yunContract.getPastEvents("signRecords", {
         fromBlock: 0,

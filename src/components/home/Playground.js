@@ -11,7 +11,6 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
-import Background from "../../images/background.jpg";
 import getReward from "../hepler/getReward";
 import { extraPoints, lottery } from "../../ethereum/helpers";
 import SimpleDateTime from "react-simple-timestamp-to-date";
@@ -71,7 +70,6 @@ const Playground = () => {
     setRewardRecords(results);
   };
   useEffect(() => {
-    document.body.style.backgroundImage = `url(${Background})`;
     const getSignDays = async () => {
       const days = await yunContract.methods.signDays().call();
       const tDays = await yunContract.methods.totalDays().call();
