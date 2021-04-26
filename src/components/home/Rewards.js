@@ -13,7 +13,7 @@ import wish from "../../images/wish.PNG";
 import food from "../../images/food.PNG";
 import story from "../../images/story.PNG";
 import Background from "../../images/background.jpg";
-import { shopContract } from "../../ethereum/shop-contract";
+import { yunContract } from "../../ethereum/yun-contract";
 import { exchange } from "../../ethereum/helpers";
 import Box from "@material-ui/core/Box";
 
@@ -32,7 +32,7 @@ const useStyles = makeStyles({
 const rewards = [
   {
     image: ticket,
-    name: "額外親親卷一張",
+    name: "親親卷一張",
     content: "換一張代表一天可以多一次親親，不可以同一天用超過一張。",
     points: 3,
   },
@@ -50,7 +50,7 @@ const rewards = [
   },
   {
     image: story,
-    name: "故事",
+    name: "小故事",
     content: "可以聽一則故事，這是很貴很貴的，傳說中只有超級乖寶寶能獲得。",
     points: 30,
   },
@@ -66,13 +66,13 @@ const rewards = [
 const Rewards = () => {
   const classes = useStyles();
   const [points, setPoints] = useState(0);
-  const exchangeRewards = async (rewardPoints) => {
+  const exchangeRewards = async (rewardPoints, name) => {
     if (+points < rewardPoints) {
       alert("點數不夠啦");
       return;
     }
-    await exchange(rewardPoints);
-    const balancePoint = await shopContract.methods
+    await exchange(rewardPoints, name);
+    const balancePoint = await yunContract.methods
       .yun("0xf289Bf6ecDb2BC0a2697F437446656C52484D8e6")
       .call();
     setPoints(balancePoint.points);
@@ -81,7 +81,7 @@ const Rewards = () => {
   useEffect(() => {
     document.body.style.backgroundImage = `url(${Background})`;
     const getPoints = async () => {
-      const balancePoint = await shopContract.methods
+      const balancePoint = await yunContract.methods
         .yun("0xf289Bf6ecDb2BC0a2697F437446656C52484D8e6")
         .call();
       setPoints(balancePoint.points);
@@ -94,7 +94,11 @@ const Rewards = () => {
         <Typography variant="h4">乖乖芸點數:{points}</Typography>
       </Box>
       {rewards.map((reward) => (
-        <Card className={classes.root} style={{ margin: "10px 15px" }}>
+        <Card
+          className={classes.root}
+          style={{ margin: "10px 15px" }}
+          key={reward.content}
+        >
           <CardActionArea>
             <CardMedia
               className={classes.media}
@@ -108,12 +112,7 @@ const Rewards = () => {
               <Typography gutterBottom variant="h6" component="span">
                 {reward.points} 點
               </Typography>
-              <Typography
-                variant="body2"
-                color="textSecondary"
-                component="p"
-                style={{ width: "300px" }}
-              >
+              <Typography variant="body2" color="textSecondary" component="p">
                 {reward.content}
               </Typography>
             </CardContent>
@@ -123,9 +122,9 @@ const Rewards = () => {
               variant="contained"
               color="secondary"
               fullWidth
-              onClick={() => exchangeRewards(reward.points)}
+              onClick={() => exchangeRewards(reward.points, reward.name)}
             >
-              Exchange
+              兌換
             </Button>
           </CardActions>
         </Card>

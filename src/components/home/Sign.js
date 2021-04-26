@@ -10,7 +10,7 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
-import { shopContract } from "../../ethereum/shop-contract";
+import { yunContract } from "../../ethereum/yun-contract";
 import { sign } from "../../ethereum/helpers";
 import SimpleDateTime from "react-simple-timestamp-to-date";
 const useStyles = makeStyles({
@@ -37,7 +37,7 @@ const Sign = () => {
   useEffect(() => {
     document.body.style.backgroundImage = `url(${Background})`;
     const getSignRecords = async () => {
-      const results = await shopContract.getPastEvents("signRecords", {
+      const results = await yunContract.getPastEvents("signRecords", {
         fromBlock: 0,
       });
       setSignRecords(results);
@@ -48,7 +48,7 @@ const Sign = () => {
   const signHandler = async () => {
     setButtonDisabled(true);
     await sign();
-    const results = await shopContract.getPastEvents("signRecords", {
+    const results = await yunContract.getPastEvents("signRecords", {
       fromBlock: 0,
     });
     setSignRecords(results);
@@ -80,7 +80,7 @@ const Sign = () => {
           </TableHead>
           <TableBody>
             {signRecords?.map((record) => (
-              <TableRow>
+              <TableRow key={record.returnValues[1]}>
                 <TableCell component="th" scope="row" align="center">
                   <SimpleDateTime
                     dateSeparator="-"

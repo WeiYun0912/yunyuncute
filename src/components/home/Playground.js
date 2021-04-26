@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { shopContract } from "../../ethereum/shop-contract";
+import { yunContract } from "../../ethereum/yun-contract";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
@@ -12,7 +12,9 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import Background from "../../images/background.jpg";
-
+import getReward from "../hepler/getReward";
+import { extraPoints, lottery } from "../../ethereum/helpers";
+import SimpleDateTime from "react-simple-timestamp-to-date";
 const useStyles = makeStyles({
   root: {
     maxWidth: 345,
@@ -34,25 +36,6 @@ const useStyles = makeStyles({
   },
 });
 
-const rewards = [
-  {
-    points: 3,
-    pb: 50,
-  },
-  {
-    points: 5,
-    pb: 80,
-  },
-  {
-    points: 10,
-    pb: 60,
-  },
-  {
-    points: 20,
-    pb: 10,
-  },
-];
-
 /**
  * 
     1.點數3點
@@ -67,19 +50,44 @@ const rewards = [
 const Playground = () => {
   const classes = useStyles();
   const [signDays, setSignDays] = useState();
+  const [totalDays, setTotalDays] = useState();
+  const [rewardRecords, setRewardRecords] = useState();
+  const [loading, setLoading] = useState(false);
 
-  const getReward = () => {
+  const handlerClick = async () => {
     const rmn = Math.floor(Math.random() * 100);
-    console.log(rmn);
+    const reward = getReward(rmn);
+    setLoading(true);
+    if (reward?.points) {
+      // await initSignDays();
+      await extraPoints(reward.points, reward.name);
+    } else {
+      await lottery(reward.name);
+    }
+    setLoading(false);
+    const results = await yunContract.getPastEvents("lotteryRecords", {
+      fromBlock: 0,
+    });
+    setRewardRecords(results);
   };
   useEffect(() => {
     document.body.style.backgroundImage = `url(${Background})`;
     const getSignDays = async () => {
-      const days = await shopContract.methods.signDays().call();
+      const days = await yunContract.methods.signDays().call();
+      const tDays = await yunContract.methods.totalDays().call();
       setSignDays(days);
+      setTotalDays(tDays);
+    };
+
+    const getRewardRecord = async () => {
+      const results = await yunContract.getPastEvents("lotteryRecords", {
+        fromBlock: 0,
+      });
+      setRewardRecords(results);
     };
     getSignDays();
-  }, []);
+    getRewardRecord();
+  }, [setRewardRecords]);
   return (
     <>
       <Box>
@@ -87,17 +95,18 @@ const Playground = () => {
           簽到五天以上可以抽獎哦!
         </Typography>
         <Typography variant="h5" component="h5" className={classes.textMargin}>
-          芸芸目前簽到了 {signDays} 天
+          芸芸目前簽到了 {totalDays} 天
         </Typography>
       </Box>
+
       <Button
         variant="contained"
         size="large"
         fullWidth
         color="secondary"
-        disabled={signDays >= 5 ? false : true}
+        disabled={signDays >= 5 && !loading ? false : true}
         className={classes.Button}
-        onClick={getReward}
+        onClick={handlerClick}
       >
         抽獎!!!!
       </Button>
@@ -106,17 +115,25 @@ const Playground = () => {
         <Table className={classes.table} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell align="center">抽獎日期</TableCell>
+              <TableCell align="center">抽獎時間</TableCell>
               <TableCell align="center">獎品</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            <TableRow>
-              <TableCell component="th" scope="row" align="center">
-                1
-              </TableCell>
-              <TableCell align="center">1</TableCell>
-            </TableRow>
+            {rewardRecords?.map((record) => (
+              <TableRow key={record.returnValues[0]}>
+                <TableCell component="th" scope="row" align="center">
+                  <SimpleDateTime
+                    dateSeparator="-"
+                    format="MYD"
+                    timeSeparator=":"
+                  >
+                    {record.returnValues[0]}
+                  </SimpleDateTime>
+                </TableCell>
+                <TableCell align="center">{record.returnValues[1]}</TableCell>
+              </TableRow>
+            ))}
           </TableBody>
         </Table>
       </TableContainer>

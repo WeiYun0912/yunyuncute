@@ -8,6 +8,7 @@ import AccountCircle from "@material-ui/icons/AccountCircle";
 import HomeIcon from "@material-ui/icons/Home";
 import { Link } from "react-router-dom";
 import SportsEsportsIcon from "@material-ui/icons/SportsEsports";
+import LocalMallIcon from "@material-ui/icons/LocalMall";
 const useStyles = makeStyles((theme) => ({
   grow: {
     flexGrow: 1,
@@ -122,6 +123,20 @@ const Header = () => {
               color="inherit"
             >
               <SportsEsportsIcon />
+            </IconButton>
+          </Link>
+          <Link
+            to="/yunyuncute/Inventory"
+            style={{ textDecoration: "none", color: "#fff", outline: "none" }}
+          >
+            <IconButton
+              edge="end"
+              aria-label="Inventory"
+              aria-controls={menuId}
+              aria-haspopup="true"
+              color="inherit"
+            >
+              <LocalMallIcon />
             </IconButton>
           </Link>
         </Toolbar>
