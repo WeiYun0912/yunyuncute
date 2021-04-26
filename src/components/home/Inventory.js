@@ -32,7 +32,7 @@ const Inventory = () => {
           </TableHead>
           <TableBody>
             {rewards?.map((reward) => (
-              <TableRow>
+              <TableRow key={reward.exchangeAt}>
                 <TableCell align="center">
                   <SimpleDateTime
                     dateSeparator="-"

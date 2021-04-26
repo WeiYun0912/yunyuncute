@@ -14,9 +14,10 @@ import food from "../../images/food.PNG";
 import story from "../../images/story.PNG";
 import { yunContract } from "../../ethereum/yun-contract";
 import { exchange } from "../../ethereum/helpers";
+import Backdrop from "@material-ui/core/Backdrop";
 import Box from "@material-ui/core/Box";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 345,
   },
@@ -26,7 +27,11 @@ const useStyles = makeStyles({
     objectFit: "cover",
     margin: "0 auto",
   },
-});
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    color: "#fff",
+  },
+}));
 
 const rewards = [
   {
@@ -65,16 +70,24 @@ const rewards = [
 const Rewards = () => {
   const classes = useStyles();
   const [points, setPoints] = useState(0);
+  const [buttonDisabled, setButtonDisabled] = useState(false);
+  const [open, setOpen] = useState(false);
   const exchangeRewards = async (rewardPoints, name) => {
     if (+points < rewardPoints) {
       alert("點數不夠啦");
       return;
     }
+    setOpen(true);
+    setButtonDisabled(true);
     await exchange(rewardPoints, name);
-    const balancePoint = await yunContract.methods
-      .yun("0xf289Bf6ecDb2BC0a2697F437446656C52484D8e6")
-      .call();
-    setPoints(balancePoint.points);
+    setTimeout(async () => {
+      const balancePoint = await yunContract.methods
+        .yun("0xf289Bf6ecDb2BC0a2697F437446656C52484D8e6")
+        .call();
+      setPoints(balancePoint.points);
+      setButtonDisabled(false);
+    }, 1000);
+    setOpen(false);
   };
 
   useEffect(() => {
@@ -88,6 +101,9 @@ const Rewards = () => {
   }, [setPoints]);
   return (
     <>
+      <Backdrop className={classes.backdrop} open={open}>
+        <img src="https://i.imgur.com/btMWvMx.gif" alt="" />
+      </Backdrop>
       <Box display="flex" alignItems="center" margin="20px 0">
         <Typography variant="h4">乖乖芸點數:{points}</Typography>
       </Box>
@@ -119,6 +135,7 @@ const Rewards = () => {
             <Button
               variant="contained"
               color="secondary"
+              disabled={buttonDisabled}
               fullWidth
               onClick={() => exchangeRewards(reward.points, reward.name)}
             >

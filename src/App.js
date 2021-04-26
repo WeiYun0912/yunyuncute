@@ -25,7 +25,7 @@ function App() {
             <Route path={"/yunyuncute/Playground"} component={Playground} />
             <Route path={"/yunyuncute/Inventory"} component={Inventory} />
 
-            {/* <Redirect from={"/"} to={"/yunyuncute"}></Redirect> */}
+            <Redirect from={"/"} to={"/yunyuncute"}></Redirect>
           </Box>
         </Container>
       </div>

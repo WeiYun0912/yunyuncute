@@ -14,7 +14,8 @@ import Paper from "@material-ui/core/Paper";
 import getReward from "../hepler/getReward";
 import { extraPoints, lottery } from "../../ethereum/helpers";
 import SimpleDateTime from "react-simple-timestamp-to-date";
-const useStyles = makeStyles({
+import Backdrop from "@material-ui/core/Backdrop";
+const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 345,
   },
@@ -33,7 +34,11 @@ const useStyles = makeStyles({
   textMargin: {
     margin: "20px 0",
   },
-});
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    color: "#fff",
+  },
+}));
 
 /**
  * 
@@ -52,22 +57,29 @@ const Playground = () => {
   const [totalDays, setTotalDays] = useState();
   const [rewardRecords, setRewardRecords] = useState();
   const [loading, setLoading] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const handlerClick = async () => {
     const rmn = Math.floor(Math.random() * 100);
     const reward = getReward(rmn);
     setLoading(true);
+    setOpen(true);
     if (reward?.points) {
       // await initSignDays();
       await extraPoints(reward.points, reward.name);
     } else {
       await lottery(reward.name);
     }
-    setLoading(false);
-    const results = await yunContract.getPastEvents("lotteryRecords", {
-      fromBlock: 0,
-    });
-    setRewardRecords(results);
+
+    setTimeout(async () => {
+      const results = await yunContract.getPastEvents("lotteryRecords", {
+        fromBlock: 0,
+      });
+      setRewardRecords(results);
+      setLoading(false);
+    }, 1000);
+
+    setOpen(false);
   };
   useEffect(() => {
     const getSignDays = async () => {
@@ -88,6 +100,9 @@ const Playground = () => {
   }, [setRewardRecords]);
   return (
     <>
+      <Backdrop className={classes.backdrop} open={open}>
+        <img src="https://i.imgur.com/btMWvMx.gif" alt="" />
+      </Backdrop>
       <Box>
         <Typography variant="h5" component="h5" className={classes.textMargin}>
           簽到五天以上可以抽獎哦!

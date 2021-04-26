@@ -12,7 +12,9 @@ import Paper from "@material-ui/core/Paper";
 import { yunContract } from "../../ethereum/yun-contract";
 import { sign } from "../../ethereum/helpers";
 import SimpleDateTime from "react-simple-timestamp-to-date";
-const useStyles = makeStyles({
+import Backdrop from "@material-ui/core/Backdrop";
+
+const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 345,
   },
@@ -27,12 +29,18 @@ const useStyles = makeStyles({
       opacity: "0.9",
     },
   },
-});
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    color: "#fff",
+  },
+}));
 
 const Sign = () => {
   const classes = useStyles();
   const [signRecords, setSignRecords] = useState();
+  const [open, setOpen] = useState(false);
   const [buttonDisabled, setButtonDisabled] = useState(false);
+
   useEffect(() => {
     const getSignRecords = async () => {
       const results = await yunContract.getPastEvents("signRecords", {
@@ -44,17 +52,24 @@ const Sign = () => {
   }, [setSignRecords]);
 
   const signHandler = async () => {
+    setOpen(true);
     setButtonDisabled(true);
     await sign();
-    const results = await yunContract.getPastEvents("signRecords", {
-      fromBlock: 0,
-    });
-    setSignRecords(results);
-    setButtonDisabled(false);
+    setTimeout(async () => {
+      const results = await yunContract.getPastEvents("signRecords", {
+        fromBlock: 0,
+      });
+      setSignRecords(results);
+      setButtonDisabled(false);
+    }, 1000);
+    setOpen(false);
   };
 
   return (
     <>
+      <Backdrop className={classes.backdrop} open={open}>
+        <img src="https://i.imgur.com/btMWvMx.gif" alt="" />
+      </Backdrop>
       <Box width="100%" margin="20px 0">
         <Button
           size="large"
