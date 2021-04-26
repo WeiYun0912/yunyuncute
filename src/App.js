@@ -5,6 +5,7 @@ import Box from "@material-ui/core/Box";
 import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 import Rewards from "./components/home/Rewards";
 import Sign from "./components/home/Sign";
+import Playground from "./components/home/Playground";
 function App() {
   return (
     <Router>
@@ -20,6 +21,7 @@ function App() {
           >
             <Route path={"/yunyuncute"} exact component={Sign} />
             <Route path={"/yunyuncute/Rewards"} component={Rewards} />
+            <Route path={"/yunyuncute/Playground"} component={Playground} />
             <Redirect from={"/"} to={"/yunyuncute"}></Redirect>
           </Box>
         </Container>

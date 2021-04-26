@@ -10,13 +10,13 @@ import Typography from "@material-ui/core/Typography";
 import ticket from "../../images/ticket.PNG";
 import drink from "../../images/drink.PNG";
 import wish from "../../images/wish.PNG";
-import dizz from "../../images/dizz.PNG";
 import food from "../../images/food.PNG";
 import story from "../../images/story.PNG";
 import Background from "../../images/background.jpg";
 import { shopContract } from "../../ethereum/shop-contract";
 import { exchange } from "../../ethereum/helpers";
 import Box from "@material-ui/core/Box";
+
 const useStyles = makeStyles({
   root: {
     maxWidth: 345,

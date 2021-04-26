@@ -7,6 +7,7 @@ import Typography from "@material-ui/core/Typography";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import HomeIcon from "@material-ui/icons/Home";
 import { Link } from "react-router-dom";
+import SportsEsportsIcon from "@material-ui/icons/SportsEsports";
 const useStyles = makeStyles((theme) => ({
   grow: {
     flexGrow: 1,
@@ -101,12 +102,26 @@ const Header = () => {
           >
             <IconButton
               edge="end"
-              aria-label="account of current user"
+              aria-label="Get Reward"
               aria-controls={menuId}
               aria-haspopup="true"
               color="inherit"
             >
               <AccountCircle />
+            </IconButton>
+          </Link>
+          <Link
+            to="/yunyuncute/Playground"
+            style={{ textDecoration: "none", color: "#fff", outline: "none" }}
+          >
+            <IconButton
+              edge="end"
+              aria-label="Play 777"
+              aria-controls={menuId}
+              aria-haspopup="true"
+              color="inherit"
+            >
+              <SportsEsportsIcon />
             </IconButton>
           </Link>
         </Toolbar>
