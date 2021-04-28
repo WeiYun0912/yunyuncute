@@ -65,7 +65,7 @@ const Playground = () => {
     setLoading(true);
     setOpen(true);
     if (reward?.points) {
-      await initSignDays();
+      // await initSignDays();
       await extraPoints(reward.points, reward.name);
     } else {
       await lottery(reward.name);

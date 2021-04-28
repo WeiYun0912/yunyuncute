@@ -70,24 +70,22 @@ const rewards = [
 const Rewards = () => {
   const classes = useStyles();
   const [points, setPoints] = useState(0);
-  const [buttonDisabled, setButtonDisabled] = useState(false);
   const [open, setOpen] = useState(false);
   const exchangeRewards = async (rewardPoints, name) => {
-    if (+points < rewardPoints) {
-      alert("點數不夠啦");
+    if (window.confirm("確定要兌換嗎!!!")) {
+      setOpen(true);
+
+      await exchange(rewardPoints, name);
+      setTimeout(async () => {
+        const balancePoint = await yunContract.methods
+          .yun("0xf289Bf6ecDb2BC0a2697F437446656C52484D8e6")
+          .call();
+        setPoints(balancePoint.points);
+      }, 1000);
+      setOpen(false);
+    } else {
       return;
     }
-    setOpen(true);
-    setButtonDisabled(true);
-    await exchange(rewardPoints, name);
-    setTimeout(async () => {
-      const balancePoint = await yunContract.methods
-        .yun("0xf289Bf6ecDb2BC0a2697F437446656C52484D8e6")
-        .call();
-      setPoints(balancePoint.points);
-      setButtonDisabled(false);
-    }, 1000);
-    setOpen(false);
   };
 
   useEffect(() => {
@@ -135,7 +133,7 @@ const Rewards = () => {
             <Button
               variant="contained"
               color="secondary"
-              disabled={buttonDisabled}
+              disabled={points <= reward.points ? true : false}
               fullWidth
               onClick={() => exchangeRewards(reward.points, reward.name)}
             >
