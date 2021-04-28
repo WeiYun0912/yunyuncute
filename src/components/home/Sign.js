@@ -39,8 +39,7 @@ const Sign = () => {
   const classes = useStyles();
   const [signRecords, setSignRecords] = useState();
   const [open, setOpen] = useState(false);
-  const [buttonDisabled, setButtonDisabled] = useState(false);
-
+  const [canSign, setCanSign] = useState(false);
   useEffect(() => {
     const getSignRecords = async () => {
       const results = await yunContract.getPastEvents("signRecords", {
@@ -48,19 +47,30 @@ const Sign = () => {
       });
       setSignRecords(results);
     };
+    const getSignTime = async () => {
+      const result = await yunContract.methods
+        .yun("0xf289Bf6ecDb2BC0a2697F437446656C52484D8e6")
+        .call();
+      const tomorrow1 = +result.signAt + 24 * 3600;
+      const tomorrow2 = Math.round(new Date().getTime() / 1000);
+
+      if (tomorrow1 <= tomorrow2) {
+        return;
+      }
+      setCanSign(true);
+    };
     getSignRecords();
+    getSignTime();
   }, [setSignRecords]);
 
   const signHandler = async () => {
     setOpen(true);
-    setButtonDisabled(true);
     await sign();
     setTimeout(async () => {
       const results = await yunContract.getPastEvents("signRecords", {
         fromBlock: 0,
       });
       setSignRecords(results);
-      setButtonDisabled(false);
     }, 1000);
     setOpen(false);
   };
@@ -76,7 +86,7 @@ const Sign = () => {
           variant="contained"
           fullWidth
           color="secondary"
-          disabled={buttonDisabled}
+          disabled={canSign}
           onClick={signHandler}
           className={classes.Button}
         >
