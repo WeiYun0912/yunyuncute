@@ -4,11 +4,8 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
-import AccountCircle from "@material-ui/icons/AccountCircle";
 import HomeIcon from "@material-ui/icons/Home";
 import { Link } from "react-router-dom";
-import SportsEsportsIcon from "@material-ui/icons/SportsEsports";
-import LocalMallIcon from "@material-ui/icons/LocalMall";
 const useStyles = makeStyles((theme) => ({
   grow: {
     flexGrow: 1,
@@ -71,13 +68,13 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
-const Header = () => {
+const Header = ({ setIndex }) => {
   const classes = useStyles();
 
   const menuId = "primary-search-account-menu";
   return (
     <div className={classes.grow}>
-      <AppBar position="static" color="secondary">
+      <AppBar position="sticky" color="secondary">
         <Toolbar>
           <Typography className={classes.title} variant="h6" noWrap>
             乖寶寶簽到網
@@ -86,6 +83,7 @@ const Header = () => {
           <Link
             to="/yunyuncute"
             style={{ textDecoration: "none", color: "#fff", outline: "none" }}
+            onClick={() => setIndex(-1)}
           >
             <IconButton
               edge="end"
@@ -95,48 +93,6 @@ const Header = () => {
               color="inherit"
             >
               <HomeIcon />
-            </IconButton>
-          </Link>
-          <Link
-            to="/yunyuncute/Rewards"
-            style={{ textDecoration: "none", color: "#fff", outline: "none" }}
-          >
-            <IconButton
-              edge="end"
-              aria-label="Get Reward"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              color="inherit"
-            >
-              <AccountCircle />
-            </IconButton>
-          </Link>
-          <Link
-            to="/yunyuncute/Playground"
-            style={{ textDecoration: "none", color: "#fff", outline: "none" }}
-          >
-            <IconButton
-              edge="end"
-              aria-label="Play 777"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              color="inherit"
-            >
-              <SportsEsportsIcon />
-            </IconButton>
-          </Link>
-          <Link
-            to="/yunyuncute/Inventory"
-            style={{ textDecoration: "none", color: "#fff", outline: "none" }}
-          >
-            <IconButton
-              edge="end"
-              aria-label="Inventory"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              color="inherit"
-            >
-              <LocalMallIcon />
             </IconButton>
           </Link>
         </Toolbar>

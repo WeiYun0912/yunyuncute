@@ -1,3 +1,4 @@
+import { useState } from "react";
 import "./App.css";
 import Header from "./components/home/Header";
 import Container from "@material-ui/core/Container";
@@ -7,11 +8,14 @@ import Rewards from "./components/home/Rewards";
 import Sign from "./components/home/Sign";
 import Playground from "./components/home/Playground";
 import Inventory from "./components/home/Inventory";
+import BottomNav from "./components/home/BottomNav";
 function App() {
+  const [index, setIndex] = useState();
   return (
     <Router>
       <div className="App">
-        <Header />
+        <Header setIndex={setIndex} />
+
         <Container>
           <Box
             display="flex"
@@ -29,6 +33,7 @@ function App() {
           </Box>
         </Container>
       </div>
+      <BottomNav index={index} setIndex={setIndex} />
     </Router>
   );
 }
