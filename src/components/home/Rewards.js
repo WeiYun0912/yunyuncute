@@ -133,7 +133,7 @@ const Rewards = () => {
             <Button
               variant="contained"
               color="secondary"
-              disabled={points <= reward.points ? true : false}
+              disabled={points >= reward.points ? false : true}
               fullWidth
               onClick={() => exchangeRewards(reward.points, reward.name)}
             >

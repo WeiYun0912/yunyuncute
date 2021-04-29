@@ -13,7 +13,7 @@ import { yunContract } from "../../ethereum/yun-contract";
 import { sign } from "../../ethereum/helpers";
 import SimpleDateTime from "react-simple-timestamp-to-date";
 import Backdrop from "@material-ui/core/Backdrop";
-
+import axios from "axios";
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 345,
@@ -45,7 +45,10 @@ const Sign = () => {
       const results = await yunContract.getPastEvents("signRecords", {
         fromBlock: 0,
       });
-      setSignRecords(results);
+      const sortRe = results.sort(
+        (a, b) => b.returnValues[1] - a.returnValues[1]
+      );
+      setSignRecords(sortRe);
     };
     const getSignTime = async () => {
       const result = await yunContract.methods
@@ -61,7 +64,7 @@ const Sign = () => {
     };
     getSignRecords();
     getSignTime();
-  }, [setSignRecords]);
+  }, [setSignRecords, setCanSign]);
 
   const signHandler = async () => {
     setOpen(true);
@@ -70,9 +73,17 @@ const Sign = () => {
       const results = await yunContract.getPastEvents("signRecords", {
         fromBlock: 0,
       });
-      setSignRecords(results);
+      const sortRe = results.sort(
+        (a, b) => b.returnValues[1] - a.returnValues[1]
+      );
+      setCanSign(true);
+      setSignRecords(sortRe);
     }, 1000);
     setOpen(false);
+  };
+
+  const se = async () => {
+    await axios.get("http://localhost:5000/").then((r) => console.log(r));
   };
 
   return (
@@ -130,6 +141,9 @@ const Sign = () => {
           </TableBody>
         </Table>
       </TableContainer>
+      <Button onClick={se} size="large" variant="contained" fullWidth>
+        Test
+      </Button>
     </>
   );
 };
