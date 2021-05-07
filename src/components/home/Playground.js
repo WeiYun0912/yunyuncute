@@ -12,7 +12,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import getReward from "../hepler/getReward";
-import { extraPoints, lottery } from "../../ethereum/helpers";
+import { extraPoints, lottery, initSignDays } from "../../ethereum/helpers";
 import SimpleDateTime from "react-simple-timestamp-to-date";
 import Backdrop from "@material-ui/core/Backdrop";
 const useStyles = makeStyles((theme) => ({
@@ -68,6 +68,7 @@ const Playground = () => {
       // await initSignDays();
       await extraPoints(reward.points, reward.name);
     } else {
+      // await initSignDays();
       await lottery(reward.name);
     }
 
@@ -117,7 +118,6 @@ const Playground = () => {
         size="large"
         fullWidth
         color="secondary"
-        disabled={signDays >= 5 && !loading ? false : true}
         className={classes.Button}
         onClick={handlerClick}
       >
