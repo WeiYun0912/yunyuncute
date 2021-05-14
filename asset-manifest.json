@@ -1,27 +1,27 @@
 {
   "files": {
-    "main.css": "./static/css/main.e574fb0e.chunk.css",
-    "main.js": "./static/js/main.62761732.chunk.js",
-    "main.js.map": "./static/js/main.62761732.chunk.js.map",
-    "runtime-main.js": "./static/js/runtime-main.584b6158.js",
-    "runtime-main.js.map": "./static/js/runtime-main.584b6158.js.map",
-    "static/js/2.dabb995d.chunk.js": "./static/js/2.dabb995d.chunk.js",
-    "static/js/2.dabb995d.chunk.js.map": "./static/js/2.dabb995d.chunk.js.map",
-    "index.html": "./index.html",
-    "static/css/main.e574fb0e.chunk.css.map": "./static/css/main.e574fb0e.chunk.css.map",
-    "static/js/2.dabb995d.chunk.js.LICENSE.txt": "./static/js/2.dabb995d.chunk.js.LICENSE.txt",
-    "static/media/App.css": "./static/media/background.180a3995.jpg",
-    "static/media/drink.2877b354.PNG": "./static/media/drink.2877b354.PNG",
-    "static/media/food.c9c317c0.PNG": "./static/media/food.c9c317c0.PNG",
-    "static/media/sleep.e405b198.PNG": "./static/media/sleep.e405b198.PNG",
-    "static/media/story.937b3ab9.PNG": "./static/media/story.937b3ab9.PNG",
-    "static/media/ticket.64a843c6.PNG": "./static/media/ticket.64a843c6.PNG",
-    "static/media/wish.37ab8e83.PNG": "./static/media/wish.37ab8e83.PNG"
+    "main.css": "/yunyuncute/static/css/main.66f32d5f.chunk.css",
+    "main.js": "/yunyuncute/static/js/main.92cba66d.chunk.js",
+    "main.js.map": "/yunyuncute/static/js/main.92cba66d.chunk.js.map",
+    "runtime-main.js": "/yunyuncute/static/js/runtime-main.97227af9.js",
+    "runtime-main.js.map": "/yunyuncute/static/js/runtime-main.97227af9.js.map",
+    "static/js/2.195562fe.chunk.js": "/yunyuncute/static/js/2.195562fe.chunk.js",
+    "static/js/2.195562fe.chunk.js.map": "/yunyuncute/static/js/2.195562fe.chunk.js.map",
+    "index.html": "/yunyuncute/index.html",
+    "static/css/main.66f32d5f.chunk.css.map": "/yunyuncute/static/css/main.66f32d5f.chunk.css.map",
+    "static/js/2.195562fe.chunk.js.LICENSE.txt": "/yunyuncute/static/js/2.195562fe.chunk.js.LICENSE.txt",
+    "static/media/App.css": "/yunyuncute/static/media/background.180a3995.jpg",
+    "static/media/drink.2877b354.PNG": "/yunyuncute/static/media/drink.2877b354.PNG",
+    "static/media/food.c9c317c0.PNG": "/yunyuncute/static/media/food.c9c317c0.PNG",
+    "static/media/sleep.e405b198.PNG": "/yunyuncute/static/media/sleep.e405b198.PNG",
+    "static/media/story.937b3ab9.PNG": "/yunyuncute/static/media/story.937b3ab9.PNG",
+    "static/media/ticket.64a843c6.PNG": "/yunyuncute/static/media/ticket.64a843c6.PNG",
+    "static/media/wish.37ab8e83.PNG": "/yunyuncute/static/media/wish.37ab8e83.PNG"
   },
   "entrypoints": [
-    "static/js/runtime-main.584b6158.js",
-    "static/js/2.dabb995d.chunk.js",
-    "static/css/main.e574fb0e.chunk.css",
-    "static/js/main.62761732.chunk.js"
+    "static/js/runtime-main.97227af9.js",
+    "static/js/2.195562fe.chunk.js",
+    "static/css/main.66f32d5f.chunk.css",
+    "static/js/main.92cba66d.chunk.js"
   ]
 }
